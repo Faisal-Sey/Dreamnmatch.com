@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+
+<!-- ========== Login & Registation Section ========== -->
+  <section class="log-reg">
+    <div class="top-menu-area">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-5">
+            <a href="{% url 'home' %}" class="backto-home"><i class="fas fa-chevron-left"></i> Back to Dreamnmatch</a>
+          </div>
+          <div class="col-lg-7 ">
+            <div class="logo">
+              <img src="{% static 'img/logo_white.png' %}" alt="logo">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row justify-content-end">
+        <div class="image image-log">
+        </div>
+        <div class="col-lg-7">
+          <div class="log-reg-inner">
+            <div class="section-header inloginp">
+              <h2 class="title">
+                Welcome to DreamnMatch
+              </h2>
+            </div>
+            <div class="main-content inloginp">
+              <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="">Username</label>
+                  <input type="text" class="my-form-control" name="username" placeholder="Enter Your Username">
+                </div>
+                <div class="form-group">
+                  <label for="">Password</label>
+                  <input type="password" class="my-form-control" name="password" placeholder="Enter Your Password">
+                </div>
+                {% for message in messages %}
+                <p style="color:red;">{{message}}</p>
+                {% endfor %}
+                <p class="f-pass">
+                  Forgot your password? <a href="{% url 'forget_password' %}">recover password</a>
+                </p>
+
+                <div class="button-wrapper">
+                  <button type="submit" class="custom-button">Sign IN</button>
+                </div>
+                <div class="or">
+                  <p>OR</p>
+                </div>
+                <div class="or-content">
+                  <p class="or-signup">
+                    Don't have an account? <a href="{% url 'Signup' %}">
+                      Sign up here
+                    </a>
+                  </p>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}

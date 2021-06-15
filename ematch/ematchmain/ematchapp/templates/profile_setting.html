@@ -1,0 +1,693 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+  <header class="header-section">
+        <div class="container">
+            <div class="header-wrapper">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="{% static 'img/logo_blue.png' %}" alt="logo">
+                    </a>
+                </div>
+                <ul class="menu">
+                    <li>
+                        <a href="{% url 'home' %}" class="active">Home</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'community' %}">Community</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'subs' %}">Membership</a>
+                    </li>
+                    <li>
+                        <a href="#">pages</a>
+                        <ul class="submenu">
+                            <li>
+                                {% if user.is_authenticated %}
+                                <a href="{% url 'profile' %}">User Panel</a>
+                                {% else %}
+                                <a href="{% url 'Signup' %}">User Panel</a>
+                                {% endif %}
+                            </li>
+                            <li>
+                                <a href="{% url 'about' %}">About Us</a>
+                            </li>
+
+                            <li>
+                                <a href="{% url 'contact' %}">Contact</a>
+                            </li>
+                            {% if user.is_authenticated %}
+                            {% else %}
+                            <li>
+                                <a href="{% url 'login' %}">Login</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'Signup' %}">Register</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </li>
+
+                    <li class="separator">
+                        <span>|</span>
+                    </li>
+                    <li>
+                        <div class="serch-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="language-select">
+                            <select class="select-bar">
+                                <option value="">EN</option>
+                            </select>
+                        </div>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="user-profile">
+                        <a href="#">
+                            <img src="{% static 'images/user-demo.png' %}" alt="">
+                        </a>
+                        <ul class="submenu">
+                            <li>
+                                <a href="{% url 'profile' %}">Profile</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'logout' %}">Logout</a>
+                            </li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    {% endif %}
+                </ul>
+                <div class="header-bar d-lg-none">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="search-overlay">
+        <div class="close"><i class="fas fa-times"></i></div>
+        <form action="#">
+            <input type="text" placeholder="Write what you want..">
+        </form>
+    </div>
+{% endblock %}
+
+{% block content %}
+{% for profile in profile %}
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+<section class="breadcrumb-area profile-bc-area">
+        <div class="container">
+            <div class="content">
+                <h2 class="title extra-padding">
+                    Setting
+                </h2>
+                <ul class="breadcrumb-list extra-padding">
+                    <li>
+                        <a href="index.html">
+                            Home
+                        </a>
+                    </li>
+
+                    <li>
+                        Setting
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- ==========Breadcrumb-Section========== -->
+
+
+    <!-- ========= Profile Section Start -->
+
+    <section class="user-setting-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-4 col-md-5">
+                    <div class="accordion" id="accordionExample">
+                        <div class="card">
+                          <div class="card-header" id="headingOne">
+                              <button class="" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <div class="icon">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <span>My Profile</span>
+                                <div class="t-icon">
+                                    <i class="fas fa-plus"></i>
+                                    <i class="fas fa-minus"></i>
+                                </div>
+                              </button>
+                          </div>
+
+                          <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                            <div class="card-body">
+                              <ul class="links">
+                                  <li>
+                                      <a  class="active" href="{% url 'setting' %}">Profile Info</a>
+                                  </li>
+
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card">
+                          <div class="card-header" id="headingTwo">
+                              <button class="collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                <div class="icon">
+                                    <i class="fas fa-cogs"></i>
+                                </div>
+                                <span>
+                                    Account
+                                </span>
+                                <div class="t-icon">
+                                    <i class="fas fa-plus"></i>
+                                    <i class="fas fa-minus"></i>
+                                </div>
+                              </button>
+                          </div>
+                          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                            <div class="card-body">
+                                <ul class="links">
+                                    <li>
+                                        <a href="{% url 'account_info' %}">Account Info</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'pass_change' %}">Change Password</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'close_account' %}">Close Account</a>
+                                    </li>
+                                </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card">
+                          <div class="card-header" id="headingThree">
+                              <button class="collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                <div class="icon">
+                                    <i class="far fa-credit-card"></i>
+                                </div>
+                                <span>
+                                    Upgrade Membership plan
+                                </span>
+                                <div class="t-icon">
+                                    <i class="fas fa-plus"></i>
+                                    <i class="fas fa-minus"></i>
+                                </div>
+                              </button>
+                          </div>
+                          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                            <div class="card-body">
+                                <ul class="links">
+                                    <li>
+                                        <a href="{% url 'subs' %}">Upgrade</a>
+                                    </li>
+                                </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+
+                <div class="col-xl-8 col-md-7 ">
+                    <div class="page-title">
+                        Profile Info
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="profile-about-box">
+                                <div class="top-bg"></div>
+                                <div class="p-inner-content">
+                                    <div class="profile-img">
+                                        {% if profile.Profile_pic %}
+                                        <img src="{{profile.Profile_pic.url}}" style="width:120px;height:120px;" alt="">
+                                        {% else %}
+                                        <img src="{% static 'img/images.jpg' %}" style="width:120px;height:120px;" alt="">
+                                        {% endif %}
+                                        <div class="active-online"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="up-photo-card mb-30">
+                                <div class="icon">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="content">
+                                    <h4>
+                                        Change Avatar
+                                    </h4>
+                                    <span>
+                                        120x120p size minimum
+                                    </span>
+                                </div>
+                                <div class="form-group" style="margin-top:20px;margin-left:-10px;">
+                                    <input type="file" name="pic" style="border:none;" class="form-control-file">
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="input-info-box mt-30">
+                        <div class="header">
+                            About your Profile
+                        </div>
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="my-input-box">
+                                        <label for="">Profile Name</label>
+                                        <input type="text" name="fullname" value="{{profile.First_name}} {{profile.Last_name}}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="my-input-box">
+                                        <label for="">Public Email</label>
+                                        <input type="text" name="email" value="{{profile.Email}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="my-input-box">
+                                        <textarea name="description" placeholder="{{profile.Description}}"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="my-input-box">
+                                        <label for="">Country</label>
+                                        <input type="text" name="county" value="{{profile.Country}}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="my-input-box">
+                                        <label for="">Region</label>
+                                        <select name="region" id="Region">
+                                         <option value="{{profile.Region}}">{{profile.Region}}</option>
+                                         <option value="Ahafo Region">Ahafo Region</option>
+                                         <option value="Ashanti Region">Ashanti Region</option>
+                                         <option value="Bono Region">Bono Region</option>
+                                         <option value="Bono East">Bono East Region</option>
+                                         <option value="Central Region">Central Region</option>
+                                         <option value="Eastern Region">Eastern Region</option>
+                                         <option value="Greater Accra Region">Greater Accra Region</option>
+                                         <option value="North East Region">North East Region</option>
+                                         <option value="Northern Region">Northern Region</option>
+                                         <option value="Oti Region">Oti Region</option>
+                                         <option value="Savannah Region">Savannah Region</option>
+                                         <option value="Upper East Region">Upper East Region</option>
+                                         <option value="Upper West Region">Upper-Western-Region</option>
+                                         <option value="Volta Region">Volta Region</option>
+                                         <option value="Western Region">Western Region</option>
+                                         <option value="Western North Region">Western North Region</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="my-input-box">
+                                        <label for="">Birthday</label>
+                                        <input type="text" name="dob" value="{{profile.Date_of_Birth}}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="my-input-box">
+                                        <label for="">Occupation</label>
+                                        <input type="text" name="occupation" placeholder="Occupation" value="{{profile.Occupation}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="my-input-box">
+                                        <label for="">Status</label>
+                                        <select name="status" id="status">
+                                            <option value="{{profile.Status}}">{{profile.Status}}</option>
+                                            <option value="In a Relationship">In a Relationship</option>
+                                            <option value="Single">Single</option>
+                                            <option value="Married">Married</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="my-input-box">
+                                        <label for="">Birthplace</label>
+                                        <input type="text" name="birthplace" placeholder="Birthplace" value="{{profile.Birthplace}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-info-box mt-30">
+                        <div class="header">
+                            Physical Appearance
+                        </div>
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="my-input-box">
+                                        <label for="">Height</label>
+                                        <input type="text" name="height" value="{{profile.Height}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="my-input-box">
+                                        <label for="">Weight</label>
+                                        <input type="text" name="weight" value="{{profile.Weight}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="my-input-box">
+                                        <label for="">Hair Colour</label>
+                                        <input type="text" name="hair_color" value="{{profile.Hair_color}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="my-input-box">
+                                        <label for="">Eye Colour</label>
+                                        <input type="text" name="eye_color" value="{{profile.Eye_color}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="my-input-box">
+                                        <label for="">Body Type</label>
+                                         <input type="text" name="body_type" value="{{profile.Body_type}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="my-input-box">
+                                        <label for="">Ethnicity</label>
+                                        <input type="text" name="ethnicity" value="{{profile.Ethnicity}}" >
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="my-input-box">
+                                        <label for="">Languages (separate with commas)</label>
+                                        <textarea name="languages" placeholder="{{profile.language}}"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-info-box mt-30">
+                        <div class="header">
+                            Interests
+                        </div>
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="my-input-box">
+                                        <label for="">Favourite TV Shows (separate with commas)</label>
+                                        <textarea name="interest_shows" placeholder="{{profile.Interest_shows}}"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="my-input-box">
+                                        <label for="">Favourite Music Bands / Artists (separate with commas)</label>
+                                        <textarea name="interest_bands" placeholder="{{profile.Interest_bands}}"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="my-input-box">
+                                        <label for="">Favourite Movies (separate with commas)</label>
+                                        <textarea name="interest_movies" placeholder="{{profile.Interest_movies}}"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="my-input-box">
+                                        <label for="">Favourite Games (separate with commas)</label>
+                                        <textarea name="interest_games" placeholder="{{profile.Interest_games}}"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-info-box mt-30">
+                        <div class="header">
+                            Jobs & Education
+                        </div>
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="my-input-box">
+                                        <label for="">Title or Place</label>
+                                        <input type="text" name="job_title" placeholder="Title or Place" value="{{profile.Jobs_title}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="my-input-box">
+                                        <label for="">Year Started</label>
+                                        <input type="text" name="job_started" value="{{profile.Jobs_started}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="my-input-box">
+                                        <label for="">Year End</label>
+                                        <input type="text" name="job_end" value="{{profile.Jobs_end}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="my-input-box">
+                                        <label for="">Description</label>
+                                        <textarea name="job_description" id="job_description" placeholder="{{profile.Jobs_description}}"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="my-input-box">
+                                        <label for="">Title or Place</label>
+                                        <input type="text" name="job_title1" value="{{profile.Jobs_title1}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="my-input-box">
+                                        <label for="">Year Started</label>
+                                        <input type="text" name="job_started1" value="{{profile.Jobs_started1}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="my-input-box">
+                                        <label for="">Year End</label>
+                                        <input type="text" name="job_end1" value="{{profile.Jobs_end1}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="my-input-box">
+                                        <label for="">Description</label>
+                                        <textarea name="job_description1" id="" placeholder="{{profile.Jobs_description1}}"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="buttons  mt-30">
+                        <button type="submit" class="custom-button">Save Changes</button>
+                        <button class="custom-button2">Discard All</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========= Profile Section Start -->
+
+
+    <!-- ==========Newslater-Section========== -->
+       <footer class="footer-section">
+        <img class="shape1" src="{% static 'images/footer/f-shape.png' %}" alt="">
+        <img class="shape2" src="{% static 'images/footer/flower01.png' %}" alt="">
+        <img class="shape3" src="{% static 'images/footer/right-shape.png' %}" alt="">
+        <div class="newslater-section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-md-8">
+                        <div class="newslater-container">
+                            <div class="newslater-wrapper">
+                                <div class="icon">
+                                    <img src="{% static 'images/footer/n-icon.png' %}" alt="">
+                                </div>
+                                <p class="text">Sign up to recieve a monthly email on the latest news!</p>
+                                <form class="newslater-form">
+                                    <input type="text" placeholder="Your Email Address">
+                                    <button type="submit">
+                                        <i class="fab fa-telegram-plane"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="footer-links">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <hr class="hr">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="link-wrapper one">
+                            <h4 class="f-l-title">
+                                Our Information
+                            </h4>
+                            <ul class="f-solial-links">
+                                <li>
+                                    <a href="{% static 'about' %}">
+                                        <i class="fas fa-angle-double-right"></i> About Us
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% static 'contact' %}">
+                                        <i class="fas fa-angle-double-right"></i> Contact Us
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="link-wrapper two">
+                            <h4 class="f-l-title">
+                                My Account
+                            </h4>
+                            <ul class="f-solial-links">
+                                {% if user.is_authenticated %}
+                                <li>
+                                    <a href="{% url 'setting' %}">
+                                        <i class="fas fa-angle-double-right"></i> Manage Account
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'community' %}">
+                                        <i class="fas fa-angle-double-right"></i> Safety Tips
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'setting' %}">
+                                        <i class="fas fa-angle-double-right"></i> Account Varification
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="{% url 'subs' %}">
+                                        <i class="fas fa-angle-double-right"></i> Membership Level
+                                    </a>
+                                </li>
+                                {% else %}
+                                <li>
+                                    <a href="{% url 'login' %}">
+                                        <i class="fas fa-angle-double-right"></i> Manage Account
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'community' %}">
+                                        <i class="fas fa-angle-double-right"></i> Safety Tips
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'login' %}">
+                                        <i class="fas fa-angle-double-right"></i> Account Varification
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="{% url 'subs' %}">
+                                        <i class="fas fa-angle-double-right"></i> Membership Level
+                                    </a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="link-wrapper three">
+                            <h4 class="f-l-title">
+                                help center
+                            </h4>
+                            <ul class="f-solial-links">
+                                <li>
+                                    <a href="{% url 'subs' %}">
+                                        <i class="fas fa-angle-double-right"></i> Help centre
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'subs' %}">
+                                        <i class="fas fa-angle-double-right"></i>Quick Start Guide
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="link-wrapper four">
+                            <h4 class="f-l-title">
+                                legal
+                            </h4>
+                            <ul class="f-solial-links">
+                                <li>
+                                    <a href="{% url 'subs' %}">
+                                        <i class="fas fa-angle-double-right"></i> Privacy policy
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'contact' %}">
+                                        <i class="fas fa-angle-double-right"></i> Report abuse
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright-wrapper">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <hr class="hr2">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 align-self-center">
+                        <div class="copyr-text">
+                            <span>
+                                Copyright © 2021.All Rights Reserved By
+                            </span>
+                            <a href="#">DreamnMatch</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <ul class="footer-social-links">
+                            <li>
+                                <a href="#">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fab fa-dribbble"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</form>
+{% endfor %}
+{% endblock %}

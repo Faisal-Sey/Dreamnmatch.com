@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+
+{% endblock %}
+
+
+{% block content %}
+
+  <section class="log-reg">
+    <div class="top-menu-area">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-5">
+            <a href="{% url 'home' %}" class="backto-home"><i class="fas fa-chevron-left"></i> Back to peyamba</a>
+          </div>
+          <div class="col-lg-7 ">
+            <div class="logo">
+              <img src="{% static 'img/logo_white.png' %}" alt="logo">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row justify-content-end">
+        <div class="image">
+        </div>
+        <div class="col-lg-7">
+          <div class="log-reg-inner">
+            <div class="section-header">
+              <h2 class="title">
+                Welcome to DreamnMatch
+              </h2>
+              <p>
+                Let's find you a match! Just fill in the fields below, and
+                we’ll get a match.
+              </p>
+            </div>
+            <div class="main-content">
+              <h4 class="content-title mt-5">Looking for Details</h4>
+              <form method="POST">
+                  {% csrf_token %}
+                <div class="form-group">
+                  <label for="">Age Group*</label>
+                  <select name="Age_group" class="my-form-control" id="Age_group">
+                      <option value="0">Select Age group</option>
+                      <option value="Any">Any</option>
+                      <option value="18-20">18-20</option>
+                      <option value="20-30">20-30</option>
+                      <option value="30-40">30-40</option>
+                      <option value="40-50">40-50</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="">Purpose*</label>
+                  <select name="Purpose" class="my-form-control" id="Purpose">
+                      <option value="0">Select Purpose</option>
+                      <option value="Any">Any</option>
+                      <option value="Dating">Dating</option>
+                      <option value="Marriage">Marriage</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="">I am looking for*</label>
+                  <div class="option">
+                    <div class="s-input mr-3">
+                      <input type="radio" name="gender1" class="my-form-control" value="Male" id="males1"><label for="males1">Man</label>
+                    </div>
+                    <div class="s-input">
+                      <input type="radio" name="gender1" class="my-form-control" value="Female" id="females1"><label for="females1">Woman</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="">Region*</label>
+                  <select name="Region"class="my-form-control" id="Region">
+                     <option value="0">Select Region</option>
+                     <option value="Any">Any</option>
+                     <option value="Ahafo Region">Ahafo Region</option>
+                     <option value="Ashanti Region">Ashanti Region</option>
+                     <option value="Bono Region">Bono Region</option>
+                     <option value="Bono East">Bono East Region</option>
+                     <option value="Central Region">Central Region</option>
+                     <option value="Eastern Region">Eastern Region</option>
+                     <option value="Greater Accra Region">Greater Accra Region</option>
+                     <option value="North East Region">North East Region</option>
+                     <option value="Northern Region">Northern Region</option>
+                     <option value="Oti Region">Oti Region</option>
+                     <option value="Savannah Region">Savannah Region</option>
+                     <option value="Upper East Region">Upper East Region</option>
+                     <option value="Upper West Region">Upper-Western-Region</option>
+                     <option value="Volta Region">Volta Region</option>
+                     <option value="Western Region">Western Region</option>
+                     <option value="Western North Region">Western North Region</option>
+                  </select>
+                </div>
+
+                <button class="custom-button" data-toggle="modal" data-target="#email-confirm">Save Details</button>
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

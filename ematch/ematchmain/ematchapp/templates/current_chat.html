@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<div class="wrapper row2">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light rounded">
+    <a class="navbar-brand" href="#">DreamnDate</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExample09">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'page' %}">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'matches' %}">Matches</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'chat' %}">Chats</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'subs' %}">Upgrade</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}">Sign Out</a>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-md-0">
+        <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+      </form>
+    </div>
+    </nav>
+</div>
+
+{% endblock %}
+{% block content %}
+
+<body onload="loadMessages()">
+
+<div class="chat_page">
+    <img src="{{ person.Profile_pic.url }}" style="width:10%;height:8%;border-radius:50%;">
+    <h1  style="font-weight:bolder;padding-left:15%;padding-top:4%;margin-top:-10%;padding-bottom: 3%;margin-left:-2.5%;background-color:#ffffff;color:#353535;">{{pass_slug}}</h1>
+    <div class="chat_app"></div>
+    <form>
+        {% if user.is_authenticated %}
+            {% if subs == "Open_always" or subs == "Amateur_open" or subs == "VIP_open" %}
+                <textarea name="text" id="send_input" style="margin-top:30px;width:75%;border-radius:10px;border: 0.5px solid gray;color:blue;"></textarea>
+                <input type="text" id="send_from" value="{{user.get_username}}" hidden>
+                <input type="text" id="send_to" value="{{pass_slug}}" hidden>
+                <input type="text" id="slug1" value="{{slug1}}" hidden>
+                <button type="button" style="margin-left: 80%;background-color:blue;margin-top: -50px;height:50px;" onclick="send_msg()" class="btn btn-primary">Send</button>
+            {% elif subs == "Locked" %}
+                <input type="text" id="send_from" value="{{user.get_username}}" hidden>
+                <input type="text" id="send_to" value="{{pass_slug}}" hidden>
+                <input type="text" id="slug1" value="{{slug1}}" hidden>
+                <a href="{% url 'subs' %}" style="margin-top:100px;width:100%;margin-left:20%;text-decoration:underline;color:blue;">Upgrade to send messages. Upgrade now</a>
+            {% elif subs == "Amateur_lock" %}
+                <input type="text" id="send_from" value="{{user.get_username}}" hidden>
+                <input type="text" id="send_to" value="{{pass_slug}}" hidden>
+                <input type="text" id="slug1" value="{{slug1}}" hidden>
+                <a href="{% url 'subs' %}" style="margin-top:100px;width:100%;margin-left:20%;text-decoration:underline;color:blue;">Exhausted all 30 messages. Upgrade now</a>
+            {% elif subs == "VIP_lock" %}
+                <input type="text" id="send_from" value="{{user.get_username}}" hidden>
+                <input type="text" id="send_to" value="{{pass_slug}}" hidden>
+                <input type="text" id="slug1" value="{{slug1}}" hidden>
+                <a href="{% url 'subs' %}" style="margin-top:100px;width:100%;margin-left:20%;text-decoration:underline;color:blue;">Exhausted all 90 messages. Upgrade now</a>
+            {% endif %}
+        {% endif %}
+    </form>
+
+</div>
+
+</body>
+{% endblock %}

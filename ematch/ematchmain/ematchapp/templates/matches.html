@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<div class="wrapper row2">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light rounded">
+    <a class="navbar-brand" href="#">DreamnDate</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExample09">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'page' %}">Profile</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'matches' %}">Matches</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'chat' %}">Chats</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'subs' %}">Upgrade</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}">Sign Out</a>
+      </ul>
+      <form class="form-inline my-2 my-md-0">
+        <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+      </form>
+    </div>
+    </nav>
+</div>
+
+{% endblock %}
+{% block content %}
+{% for result in results %}
+{% if result in subscription %}
+    <div class="match_content">
+
+    <div class="rec_color">
+        &nbsp;
+    </div>
+    <div class="match_pic">
+        <img src="{{ result.Profile_pic.url }}">
+    </div>
+    <div class="details_text">
+        <p><span style="font-weight:bolder;color:#353535;">Name</span> - <span style="color:#353535;">{{ result.First_name }}</span></p>
+        <p><span style="font-weight:bolder;color:#353535;">Gender</span> - <span style="color:#353535;">{{ result.Gender }}</span></p>
+        <p><span style="font-weight:bolder;color:#353535;">Age</span> - <span style="color:#353535;">{{ result.get_age }} years</span></p>
+        <p><span style="font-weight:bolder;color:#353535;">Region</span> - <span style="color:#353535;">{{ result.Region }}</span></p>
+        <p><span style="font-weight:bolder;color:#353535;">Looking for</span> <span style="color:#353535;">{{ result.other.Purpose }} partner</span></p>
+        <a href="{% url 'subs' %}"  style="background-color: #353535;" class="btn btn-outline-primary">Upgrade to View Details</a>
+    </div>
+
+
+</div>
+{% else %}
+<div class="match_content">
+
+    <div class="rec_color">
+        &nbsp;
+    </div>
+    <div class="match_pic">
+        <img src="{{ result.Profile_pic.url }}">
+    </div>
+    <div class="details_text">
+        <p><span style="font-weight:bolder;color:#353535;">Name</span> - <span style="color:#353535;">{{ result.First_name }}</span></p>
+        <p><span style="font-weight:bolder;color:#353535;">Gender</span> - <span style="color:#353535;">{{ result.Gender }}</span></p>
+        <p><span style="font-weight:bolder;color:#353535;">Age</span> - <span style="color:#353535;">{{ result.get_age }} years</span></p>
+        <p><span style="font-weight:bolder;color:#353535;">Region</span> - <span style="color:#353535;">{{ result.Region }}</span></p>
+        <p><span style="font-weight:bolder;color:#353535;">Looking for</span> <span style="color:#353535;">{{ result.other.Purpose }} partner</span></p>
+        <a href="{% url 'current' slug=name|add:result.slug|add:result.First_name %}"  style="background-color: #353535;" class="btn btn-outline-primary">Message</a>
+        <a href="{% url 'match_detail' slug=result.First_name %}"  style="background-color: #353535;" class="btn btn-outline-primary">Details</a>
+    </div>
+
+
+</div>
+{% endif %}
+{% empty %}
+<div class="match_content">
+    <h3 style="height:100%;padding: 40% 40% 40% 40%;color: #353535;">No matches Found</h3>
+</div>
+{% endfor %}
+
+{% endblock %}

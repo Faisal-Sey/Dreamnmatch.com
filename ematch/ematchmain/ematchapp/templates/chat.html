@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<div class="wrapper row2">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light rounded">
+    <a class="navbar-brand" href="#">DreamnDate</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExample09">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'page' %}">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'matches' %}">Matches</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'chat' %}">Chats <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'subs' %}">Upgrade</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}">Sign Out</a>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-md-0">
+        <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+      </form>
+    </div>
+    </nav>
+</div>
+
+{% endblock %}
+{% block content %}
+
+<div class="chat_page" style="overflow-y: scroll;">
+    <h1 style="font-weight:bolder;padding-top:4%;margin-top:0;padding-bottom: 5%;padding-left: 2%;color:#353535;margin-left:-2.5%;background-color:#ffffff;">Chats</h1>
+    <a href="{% url 'matches' %}" class="message_anchor">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="20" fill="#353535" class="message-icon bi bi-chat-right-dots-fill" viewBox="0 0 16 16">
+            <path d="M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353V2zM5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+        </svg>
+    </a>
+    <p class="hide_new">New Message</p>
+    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="20" fill="#353535;" style="float:right;margin-right:3%;margin-top:-15%;" class="bi bi-search" viewBox="0 0 16 16">
+        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+    </svg>
+    {% for key, value in final.items %}
+    <p style="margin-left: -10px;padding-left: 10px;margin-bottom: 10px;">
+        <a href="{% url 'current' slug=value.0|add:key %}">
+            <img src="{{images|get_item:value.1}}" style="border-radius: 25px;height:50px;width: 40px;">
+            <a href="{% url 'current' slug=value.0|add:key %}" style="width:100%;color:black;margin-left: 8px;">{{key}} <span style="float:right;margin-top:15px;color:#777;font-size: 12px;">{{msg|get_time:value.1}}</span></a>
+            <p style="text-overflow: ellipsis; overflow-x: hidden;margin-left: 50px;margin-top: -16px;">{{msg|get_person:value.1}}: {{msg|get_msg:value.1}} </p>
+            <hr style="border-width:0px;border-style:inset;background-color:#cdcdcd;"/>
+        </a>
+    </p>
+
+        {% empty %}
+        <p>No chats yet</p>
+
+    {% endfor %}
+</div>
+
+{% endblock %}

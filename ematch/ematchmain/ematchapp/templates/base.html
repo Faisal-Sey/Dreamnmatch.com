@@ -1,0 +1,2248 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'css/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'css/odometer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/nice-select.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jquery.animatedheadline.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <!-- <link rel="stylesheet" href="assets/css/dark.css"> -->
+
+    <link rel="shortcut icon" href="{% static 'img/title_logo.png' %}" type="image/x-icon">
+
+    <title>DreamnMatch - Free Dating Website</title>
+    <script>
+
+      function sendResponse(id){
+            var from_m = '';
+            var send_m = '';
+            var slug_m = '';
+            if (id){
+                lead = id.slice(3, 5);
+            }
+            else{
+            }
+            var msg_from = document.getElementById("send_from"+lead).value;
+            var msg_to = document.getElementById("send_to" + lead).value;
+            var slugOne = document.getElementById("slug1" + lead).value;
+			url = "http://127.0.0.1:8000/recieve/" + slugOne + "/";
+			var xmlHttp = new XMLHttpRequest();
+			xmlHttp.open("GET", url, true);
+			xmlHttp.responseType = 'json';
+			xmlHttp.send( null );
+
+			xmlHttp.onload = function(){
+			   if(xmlHttp.status == 200){
+				   var newDat = Object.values(xmlHttp.response)
+				   for (var i = 0; i < newDat.length; i++){
+					   var messageFrom = newDat[i][0];
+					   if (messageFrom === msg_from){
+						   var tag = document.getElementById("chat");
+						   var nameTag = document.getElementsByName('ptag'+i)[0];
+						   var divMsg = document.getElementsByClassName('message')[0];
+						   var h_t = document.getElementsByClassName('h_t')[0];
+						   var head_name = document.getElementById("head_name");
+                           var total_message =  document.getElementById("total_messages");
+						   if (nameTag){
+								tag.innerText = '';
+								var liTag = document.createElement('li');
+							   var divTag = document.createElement('div');
+							   var divo = document.createElement('div');
+							   var divoTag = document.createElement('div');
+							   var spanTag = document.createElement('span');
+							   var h_t_Tag = document.createElement('h2');
+							   var h_tr_Tag = document.createElement('h3');
+							   var pTag = document.createElement('p');
+							   liTag.setAttribute('class', "me");
+							   divTag.setAttribute('class', "entete");
+							   divoTag.setAttribute('class', "message");
+							   spanTag.setAttribute('class', "status blue");
+							   divo.setAttribute('class', "triangle");
+							   const now = new Date();
+							   var date_now = ((now.toISOString()).split('T')[0]);
+							   var time_msg = ((newDat[i][2]).split('T')[0]);
+							   var new_realtime = ''
+							   if (date_now === time_msg){
+									var time_time = (newDat[i][2]).split('T')[1];
+									var real_time = time_time.slice(0,5);
+									var Ams = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+									var check = Ams.includes(real_time.slice(0, 2));
+									if (check === true){
+										new_realtime = real_time + ' ' + 'AM';
+
+									}
+									else{
+										new_realtime = real_time + ' ' + 'PM';
+									}
+							   }
+							   else if ( time_msg.slice(0, 4) === date_now.slice(0, 4) ){
+									if ((parseInt(time_msg.slice(8, 10))) === (parseInt(date_now.slice(8, 10)) - 1)){
+										new_realtime = "Yesterday";
+									}
+							   }
+							   else{
+									new_realtime = time_msg.slice(0, 4) + "/" + time_msg.slice(5, 7) + "/" + time_msg.slice(8, 10);
+							   }
+							   document.getElementById('slug2').value = slugOne;
+                               document.getElementById('send_to1').value = msg_to;
+                               document.getElementById('send_from1').value = msg_from;
+							   h_tr_Tag.innerText = new_realtime;
+							   h_t_Tag.innerText = "You";
+							   h_t_Tag.setAttribute('class', "h_t");
+                               h_tr_Tag.setAttribute('class', "h_tr");
+							   head_name.innerText = msg_to;
+                               total_message.innerText = "already " + newDat.length + " messages";
+							   pTag.setAttribute('name', ("ptag"+i));
+							   pTag.innerText = newDat[i][3];
+							   divoTag.appendChild(pTag);
+							   divTag.appendChild(spanTag);
+							   divTag.appendChild(h_t_Tag);
+							   divTag.appendChild(h_tr_Tag);
+							   liTag.appendChild(divTag);
+							   liTag.appendChild(divoTag);
+							   liTag.appendChild(divo);
+							   tag.appendChild(liTag);
+
+						   }
+						   else{
+
+							   var liTag = document.createElement('li');
+							   var divTag = document.createElement('div');
+							   var divo = document.createElement('div');
+							   var divoTag = document.createElement('div');
+							   var spanTag = document.createElement('span');
+							   var h_t_Tag = document.createElement('h2');
+							   var h_tr_Tag = document.createElement('h3');
+							   var pTag = document.createElement('p');
+							   liTag.setAttribute('class', "me");
+							   divTag.setAttribute('class', "entete");
+							   divoTag.setAttribute('class', "message");
+							   spanTag.setAttribute('class', "status blue");
+							   divo.setAttribute('class', "triangle");
+							   const now = new Date();
+							   var date_now = ((now.toISOString()).split('T')[0]);
+							   var time_msg = ((newDat[i][2]).split('T')[0]);
+							   var new_realtime = ''
+							   if (date_now === time_msg){
+									var time_time = (newDat[i][2]).split('T')[1];
+									var real_time = time_time.slice(0,5);
+									var Ams = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+									var check = Ams.includes(real_time.slice(0, 2));
+									if (check === true){
+										new_realtime = real_time + ' ' + 'AM';
+
+									}
+									else{
+										new_realtime = real_time + ' ' + 'PM';
+									}
+							   }
+							   else if ( time_msg.slice(0, 4) === date_now.slice(0, 4) ){
+									if ((parseInt(time_msg.slice(8, 10))) === (parseInt(date_now.slice(8, 10)) - 1)){
+										new_realtime = "Yesterday";
+									}
+							   }
+							   else{
+									new_realtime = time_msg.slice(0, 4) + "/" + time_msg.slice(5, 7) + "/" + time_msg.slice(8, 10);
+							   }
+							   document.getElementById('slug2').value = slugOne;
+                                document.getElementById('send_to1').value = msg_to;
+                                document.getElementById('send_from1').value = msg_from;
+							   h_tr_Tag.innerText = new_realtime;
+							   h_t_Tag.innerText = "You";
+							   h_t_Tag.setAttribute('class', "h_t");
+                               h_tr_Tag.setAttribute('class', "h_tr");
+							   pTag.setAttribute('name', ("ptag"+i));
+							   pTag.innerText = newDat[i][3];
+							   divoTag.appendChild(pTag);
+							   divTag.appendChild(spanTag);
+							   divTag.appendChild(h_t_Tag);
+							   divTag.appendChild(h_tr_Tag);
+							   liTag.appendChild(divTag);
+							   liTag.appendChild(divoTag);
+							   liTag.appendChild(divo);
+							   tag.appendChild(liTag);
+						   }
+					   }
+					   else{
+					            var tag = document.getElementById("chat");
+						        var nameTag = document.getElementsByName('ptag'+i)[0];
+						        var divMsg = document.getElementsByClassName('message')[0];
+					           	var h_t = document.getElementsByClassName('h_t')[0];
+                                var head_name = document.getElementById("head_name");
+                                var total_message =  document.getElementById("total_messages");
+					            if (nameTag){
+                                    tag.innerText = '';
+                                    var liTag = document.createElement('li');
+							   var divTag = document.createElement('div');
+							   var divo = document.createElement('div');
+							   var divoTag = document.createElement('div');
+							   var spanTag = document.createElement('span');
+							   var h_t_Tag = document.createElement('h2');
+							   var h_tr_Tag = document.createElement('h3');
+							   var pTag = document.createElement('p');
+							   liTag.setAttribute('class', "you");
+							   divTag.setAttribute('class', "entete");
+							   divoTag.setAttribute('class', "message");
+							   spanTag.setAttribute('class', "status green");
+							   divo.setAttribute('class', "triangle");
+							   const now = new Date();
+							   var date_now = ((now.toISOString()).split('T')[0]);
+							   var time_msg = ((newDat[i][2]).split('T')[0]);
+							   var new_realtime = ''
+							   if (date_now === time_msg){
+									var time_time = (newDat[i][2]).split('T')[1];
+									var real_time = time_time.slice(0,5);
+									var Ams = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+									var check = Ams.includes(real_time.slice(0, 2));
+									if (check === true){
+										new_realtime = real_time + ' ' + 'AM';
+
+									}
+									else{
+										new_realtime = real_time + ' ' + 'PM';
+									}
+							   }
+							   else if ( time_msg.slice(0, 4) === date_now.slice(0, 4) ){
+									if ((parseInt(time_msg.slice(8, 10))) === (parseInt(date_now.slice(8, 10)) - 1)){
+										new_realtime = "Yesterday";
+									}
+							   }
+							   else{
+									new_realtime = time_msg.slice(0, 4) + "/" + time_msg.slice(5, 7) + "/" + time_msg.slice(8, 10);
+							   }
+							   document.getElementById('slug2').value = slugOne;
+                               document.getElementById('send_to1').value = msg_to;
+                               document.getElementById('send_from1').value = msg_from;
+							   h_tr_Tag.innerText = new_realtime;
+							   h_t_Tag.innerText = msg_to;
+							   h_t_Tag.setAttribute('class', "h_t");
+                               h_tr_Tag.setAttribute('class', "h_tr");
+							   head_name.innerText = msg_to;
+                               total_message.innerText = "already " + newDat.length + " messages";
+							   pTag.setAttribute('name', ("ptag"+i));
+							   pTag.innerText = newDat[i][3];
+							   divoTag.appendChild(pTag);
+							   divTag.appendChild(spanTag);
+							   divTag.appendChild(h_t_Tag);
+							   divTag.appendChild(h_tr_Tag);
+							   liTag.appendChild(divTag);
+							   liTag.appendChild(divoTag);
+							   liTag.appendChild(divo);
+							   tag.appendChild(liTag);
+                                }
+                                else{
+							   var liTag = document.createElement('li');
+							   var divTag = document.createElement('div');
+							   var divo = document.createElement('div');
+							   var divoTag = document.createElement('div');
+							   var spanTag = document.createElement('span');
+							   var h_t_Tag = document.createElement('h2');
+							   var h_tr_Tag = document.createElement('h3');
+							   var pTag = document.createElement('p');
+							   liTag.setAttribute('class', "you");
+							   divTag.setAttribute('class', "entete");
+							   divoTag.setAttribute('class', "message");
+							   spanTag.setAttribute('class', "status green");
+							   divo.setAttribute('class', "triangle");
+							   const now = new Date();
+							   var date_now = ((now.toISOString()).split('T')[0]);
+							   var time_msg = ((newDat[i][2]).split('T')[0]);
+							   var new_realtime = '';
+							   if (date_now === time_msg){
+									var time_time = (newDat[i][2]).split('T')[1];
+									var real_time = time_time.slice(0,5);
+									var Ams = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+									var check = Ams.includes(real_time.slice(0, 2));
+									if (check === true){
+										new_realtime = real_time + ' ' + 'AM';
+
+									}
+									else{
+										new_realtime = real_time + ' ' + 'PM';
+									}
+							   }
+							   else if ( time_msg.slice(0, 4) === date_now.slice(0, 4) ){
+									if ((parseInt(time_msg.slice(8, 10))) === (parseInt(date_now.slice(8, 10)) - 1)){
+										new_realtime = "Yesterday";
+									}
+							   }
+							   else{
+									new_realtime = time_msg.slice(0, 4) + "/" + time_msg.slice(5, 7) + "/" + time_msg.slice(8, 10);
+							   }
+							   document.getElementById('slug2').value = slugOne;
+                               document.getElementById('send_to1').value = msg_to;
+                               document.getElementById('send_from1').value = msg_from;
+							   h_tr_Tag.innerText = new_realtime;
+							   h_t_Tag.innerText = msg_to;
+							   h_t_Tag.setAttribute('class', "h_t");
+                               h_tr_Tag.setAttribute('class', "h_tr");
+							   head_name.innerText = msg_to;
+                               total_message.innerText = "already " + newDat.length + " messages";
+							   pTag.setAttribute('name', ("ptag"+i));
+							   pTag.innerText = newDat[i][3];
+							   divoTag.appendChild(pTag);
+							   divTag.appendChild(spanTag);
+							   divTag.appendChild(h_t_Tag);
+							   divTag.appendChild(h_tr_Tag);
+							   liTag.appendChild(divTag);
+							   liTag.appendChild(divoTag);
+							   liTag.appendChild(divo);
+							   tag.appendChild(liTag);
+                            }
+					   }
+				   }
+
+
+				}
+			}
+
+        document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
+
+      }
+      function load_expand(){
+        url = "http://127.0.0.1:8000/recieve_msg/";
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", url, true);
+        xmlHttp.responseType = 'json';
+        xmlHttp.send( null );
+        xmlHttp.onload = function(){
+           if(xmlHttp.status == 200){
+               var newDat = Object.values(xmlHttp.response)
+               for (var i = 0; i < newDat.length; i++){
+                   j = i + 1
+                   document.getElementById("get_msg"+"-"+j).innerText = newDat[i][0] + ": " + newDat[i][1];
+                   document.getElementById("get_time"+'-'+j).innerText = newDat[i][2];
+               }
+           }
+        }
+        document.getElementById("aside_height").style.height = "100%";
+      }
+      function show_input(){
+        if ( document.getElementById("files_input").style.display == "block"){
+            document.getElementById("files_input").style.display = "none";
+        }
+        else {
+            document.getElementById("files_input").style.display = "block";
+        }
+      }
+      function collapse_height(btn){
+
+        if (document.getElementById("aside_height").style.height === "100%"){
+            document.getElementById("aside_height").style.height = "0";
+            loadMessages(btn.id);
+            setTimeout(sendResponse(btn.id), 1000);
+        }
+        else{
+            document.getElementById("aside_height").style.height = "100%";
+            loadMessages(btn.id);
+            setTimeout(sendResponse(btn.id), 1000);
+        }
+
+
+      }
+      function load_messages(btn){
+        console.log(btn.id);
+         loadMessages(btn.id);
+      }
+      function pass_detail1(){
+        document.getElementById("pass_detail1").style.display = "block";
+      }
+
+      function pass_detail(){
+        document.getElementById("pass_detail").style.display = "block";
+      }
+
+      function pass_collapse(){
+        document.getElementById("pass_detail").style.display = "none";
+        document.getElementById("pass_detail1").style.display = "none";
+      }
+      function loadMessages(id){
+        var from_m = '';
+        var send_m = '';
+        var slug_m = '';
+        if (id){
+            lead = id.slice(3, 5);
+            from_m = "send_from" +  lead;
+            send_m = "send_to" + lead;
+            slug_m = "slug1" + lead;
+        }
+        else{
+        }
+        var msg_from = document.getElementById("send_from"+lead).value;
+        var msg_to = document.getElementById("send_to" + lead).value;
+        var slugOne = document.getElementById("slug1" + lead).value;
+        console.log(slugOne);
+
+        url = "http://127.0.0.1:8000/recieve/" + slugOne + "/";
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", url, true);
+        xmlHttp.responseType = 'json';
+        xmlHttp.send( null );
+
+        xmlHttp.onload = function(){
+           if(xmlHttp.status == 200){
+               var newDat = Object.values(xmlHttp.response)
+               for (var i = 0; i < newDat.length; i++){
+                   var messageFrom = newDat[i][0];
+                   if (messageFrom === msg_from){
+                       var tag = document.getElementById("chat");
+                       var nameTag = document.getElementsByName('ptag'+i)[0];
+                       var h_t = document.getElementsByClassName('h_t')[0];
+                       var head_name = document.getElementById("head_name");
+                       var total_message =  document.getElementById("total_messages");
+                       if (nameTag){
+                           tag.innerText = '';
+                           var liTag = document.createElement('li');
+                           var divTag = document.createElement('div');
+                           var divo = document.createElement('div');
+                           var divoTag = document.createElement('div');
+                           var spanTag = document.createElement('span');
+                           var h_t_Tag = document.createElement('h2');
+                           var h_tr_Tag = document.createElement('h3');
+                           var pTag = document.createElement('p');
+                           liTag.setAttribute('class', "me");
+                           divTag.setAttribute('class', "entete");
+                           divoTag.setAttribute('class', "message");
+                           spanTag.setAttribute('class', "status blue");
+                           divo.setAttribute('class', "triangle");
+                           const now = new Date();
+                           var date_now = ((now.toISOString()).split('T')[0]);
+                           var time_msg = ((newDat[i][2]).split('T')[0]);
+                           var new_realtime = '';
+                           if (date_now === time_msg){
+                                var time_time = (newDat[i][2]).split('T')[1];
+                                var real_time = time_time.slice(0,5);
+                                var Ams = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+                                var check = Ams.includes(real_time.slice(0, 2));
+                                if (check === true){
+                                    new_realtime = real_time + ' ' + 'AM';
+
+                                }
+                                else{
+                                    new_realtime = real_time + ' ' + 'PM';
+                                }
+                           }
+                           else if ( time_msg.slice(0, 4) === date_now.slice(0, 4) ){
+                                if ((parseInt(time_msg.slice(8, 10))) === (parseInt(date_now.slice(8, 10)) - 1)){
+                                    new_realtime = "Yesterday";
+                                }
+                           }
+                           else{
+                                new_realtime = time_msg.slice(0, 4) + "/" + time_msg.slice(5, 7) + "/" + time_msg.slice(8, 10);
+                           }
+                           document.getElementById('slug2').value = slugOne;
+                           document.getElementById('send_to1').value = msg_to;
+                           document.getElementById('send_from1').value = msg_from;
+                           h_tr_Tag.innerText = new_realtime;
+                           h_t_Tag.innerText = "You";
+                           h_t_Tag.setAttribute('class', "h_t");
+                           h_tr_Tag.setAttribute('class', "h_tr");
+                           pTag.setAttribute('name', ("ptag"+i));
+                           pTag.innerText = newDat[i][3];
+                           head_name.innerText = msg_to;
+                           total_message.innerText = "already " + newDat.length + " messages";
+                           divoTag.appendChild(pTag);
+                           divTag.appendChild(spanTag);
+                           divTag.appendChild(h_t_Tag);
+                           divTag.appendChild(h_tr_Tag);
+                           liTag.appendChild(divTag);
+                           liTag.appendChild(divoTag);
+                           liTag.appendChild(divo);
+                           tag.appendChild(liTag);
+
+                       }
+                       else{
+                           var liTag = document.createElement('li');
+                           var divTag = document.createElement('div');
+                           var divo = document.createElement('div');
+                           var divoTag = document.createElement('div');
+                           var spanTag = document.createElement('span');
+                           var h_t_Tag = document.createElement('h2');
+                           var h_tr_Tag = document.createElement('h3');
+                           var pTag = document.createElement('p');
+                           liTag.setAttribute('class', "me");
+                           divTag.setAttribute('class', "entete");
+                           divoTag.setAttribute('class', "message");
+                           spanTag.setAttribute('class', "status blue");
+                           divo.setAttribute('class', "triangle");
+                           const now = new Date();
+                           var date_now = ((now.toISOString()).split('T')[0]);
+                           var time_msg = ((newDat[i][2]).split('T')[0]);
+                           var new_realtime = '';
+                           if (date_now === time_msg){
+                                var time_time = (newDat[i][2]).split('T')[1];
+                                var real_time = time_time.slice(0,5);
+                                var Ams = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+                                var check = Ams.includes(real_time.slice(0, 2));
+                                if (check === true){
+                                    new_realtime = real_time + ' ' + 'AM';
+
+                                }
+                                else{
+                                    new_realtime = real_time + ' ' + 'PM';
+                                }
+                           }
+                           else if ( time_msg.slice(0, 4) === date_now.slice(0, 4) ){
+                                if ((parseInt(time_msg.slice(8, 10))) === (parseInt(date_now.slice(8, 10)) - 1)){
+                                    new_realtime = "Yesterday";
+                                }
+                           }
+                           else{
+                                new_realtime = time_msg.slice(0, 4) + "/" + time_msg.slice(5, 7) + "/" + time_msg.slice(8, 10);
+                           }
+                           document.getElementById('slug2').value = slugOne;
+                           document.getElementById('send_to1').value = msg_to;
+                           document.getElementById('send_from1').value = msg_from;
+                           h_tr_Tag.innerText = new_realtime;
+                           h_t_Tag.innerText = "You";
+                           h_t_Tag.setAttribute('class', "h_t");
+                           h_tr_Tag.setAttribute('class', "h_tr");
+                           head_name.innerText = msg_to;
+                           total_message.innerText = "already " + newDat.length + " messages";
+                           pTag.setAttribute('name', ("ptag"+i));
+                           pTag.innerText = newDat[i][3];
+                           divoTag.appendChild(pTag);
+                           divTag.appendChild(spanTag);
+                           divTag.appendChild(h_t_Tag);
+                           divTag.appendChild(h_tr_Tag);
+                           liTag.appendChild(divTag);
+                           liTag.appendChild(divoTag);
+                           liTag.appendChild(divo);
+                           tag.appendChild(liTag);
+                       }
+                   }
+                   else{
+                        var tag = document.getElementById("chat");
+                        var nameTag = document.getElementsByName('ptag'+i)[0];
+                        var h_t = document.getElementsByClassName('h_t')[0];
+                        var head_name = document.getElementById("head_name");
+                        var total_message =  document.getElementById("total_messages");
+                        if (nameTag){
+                           tag.innerText = '';
+                           var liTag = document.createElement('li');
+                           var divTag = document.createElement('div');
+                           var divo = document.createElement('div');
+                           var divoTag = document.createElement('div');
+                           var spanTag = document.createElement('span');
+                           var h_t_Tag = document.createElement('h2');
+                           var h_tr_Tag = document.createElement('h3');
+                           var pTag = document.createElement('p');
+                           liTag.setAttribute('class', "you");
+                           divTag.setAttribute('class', "entete");
+                           divoTag.setAttribute('class', "message");
+                           spanTag.setAttribute('class', "status green");
+                           divo.setAttribute('class', "triangle");
+                           const now = new Date();
+                           var date_now = ((now.toISOString()).split('T')[0]);
+                           var time_msg = ((newDat[i][2]).split('T')[0]);
+                           var new_realtime = '';
+                           if (date_now === time_msg){
+                                var time_time = (newDat[i][2]).split('T')[1];
+                                var real_time = time_time.slice(0,5);
+                                var Ams = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+                                var check = Ams.includes(real_time.slice(0, 2));
+                                if (check === true){
+                                    new_realtime = real_time + ' ' + 'AM';
+
+                                }
+                                else{
+                                    new_realtime = real_time + ' ' + 'PM';
+                                }
+                           }
+                           else if ( time_msg.slice(0, 4) === date_now.slice(0, 4) ){
+                                if ((parseInt(time_msg.slice(8, 10))) === (parseInt(date_now.slice(8, 10)) - 1)){
+                                    new_realtime = "Yesterday";
+                                }
+                           }
+                           else{
+                                new_realtime = time_msg.slice(0, 4) + "/" + time_msg.slice(5, 7) + "/" + time_msg.slice(8, 10);
+                           }
+                           document.getElementById('slug2').value = slugOne;
+                           document.getElementById('send_to1').value = msg_to;
+                           document.getElementById('send_from1').value = msg_from;
+                           h_tr_Tag.innerText = new_realtime;
+                           h_t_Tag.innerText = msg_to;
+                           h_t_Tag.setAttribute('class', "h_t");
+                           h_tr_Tag.setAttribute('class', "h_tr");
+                           pTag.setAttribute('name', ("ptag"+i));
+                           head_name.innerText = msg_to;
+                           total_message.innerText = "already " + newDat.length + " messages";
+                           pTag.innerText = newDat[i][3];
+                           divoTag.appendChild(pTag);
+                           divTag.appendChild(spanTag);
+                           divTag.appendChild(h_t_Tag);
+                           divTag.appendChild(h_tr_Tag);
+                           liTag.appendChild(divTag);
+                           liTag.appendChild(divoTag);
+                           liTag.appendChild(divo);
+                           tag.appendChild(liTag);
+                       }
+                       else{
+
+                           var liTag = document.createElement('li');
+                           var divTag = document.createElement('div');
+                           var divo = document.createElement('div');
+                           var divoTag = document.createElement('div');
+                           var spanTag = document.createElement('span');
+                           var h_t_Tag = document.createElement('h2');
+                           var h_tr_Tag = document.createElement('h3');
+                           var pTag = document.createElement('p');
+                           liTag.setAttribute('class', "you");
+                           divTag.setAttribute('class', "entete");
+                           divoTag.setAttribute('class', "message");
+                           spanTag.setAttribute('class', "status green");
+                           divo.setAttribute('class', "triangle");
+                           const now = new Date();
+                           var date_now = ((now.toISOString()).split('T')[0]);
+                           var time_msg = ((newDat[i][2]).split('T')[0]);
+                           var new_realtime = ''
+                           if (date_now === time_msg){
+                                var time_time = (newDat[i][2]).split('T')[1];
+                                var real_time = time_time.slice(0,5);
+                                var Ams = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+                                var check = Ams.includes(real_time.slice(0, 2));
+                                if (check === true){
+                                    new_realtime = real_time + ' ' + 'AM';
+
+                                }
+                                else{
+                                    new_realtime = real_time + ' ' + 'PM';
+                                }
+                           }
+                           else if ( time_msg.slice(0, 4) === date_now.slice(0, 4) ){
+                                if ((parseInt(time_msg.slice(8, 10))) === (parseInt(date_now.slice(8, 10)) - 1)){
+                                    new_realtime = "Yesterday";
+                                }
+                           }
+                           else{
+                                new_realtime = time_msg.slice(0, 4) + "/" + time_msg.slice(5, 7) + "/" + time_msg.slice(8, 10);
+                           }
+                           document.getElementById('slug2').value = slugOne;
+                           document.getElementById('send_to1').value = msg_to;
+                           document.getElementById('send_from1').value = msg_from;
+                           h_tr_Tag.innerText = new_realtime;
+                           h_t_Tag.innerText = msg_to;
+                           h_t_Tag.setAttribute('class', "h_t");
+                           h_tr_Tag.setAttribute('class', "h_tr");
+                           head_name.innerText = msg_to;
+                           total_message.innerText = "already " + newDat.length + " messages";
+                           pTag.setAttribute('name', ("ptag"+i));
+                           pTag.innerText = newDat[i][3];
+                           divoTag.appendChild(pTag);
+                           divTag.appendChild(spanTag);
+                           divTag.appendChild(h_t_Tag);
+                           divTag.appendChild(h_tr_Tag);
+                           liTag.appendChild(divTag);
+                           liTag.appendChild(divoTag);
+                           liTag.appendChild(divo);
+                           tag.appendChild(liTag);
+                       }
+                   }
+               }
+
+           }else{
+               console.log("error");
+           }
+
+        }
+        var chat_div = document.getElementById("chat").scrollHeight;
+        document.body.scrollTo(0, chat);
+       }
+
+      function send_msg(){
+        var msg = document.getElementById("send_input").value;
+        var msg_from = document.getElementById("send_from1").value;
+        var msg_to = document.getElementById("send_to1").value;
+        var slugOne = document.getElementById("slug2").value;
+
+
+        let data = {message: msg, send_to:msg_to};
+        var new_data = ''
+
+        fetch("http://127.0.0.1:8000/send/", {
+            method: "POST",
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+            }).then((response) => response.json())
+
+        url = "http://127.0.0.1:8000/recieve/" + slugOne + "/";
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", url, true);
+        xmlHttp.responseType = 'json';
+        xmlHttp.send( null );
+
+        xmlHttp.onload = function(){
+           if(xmlHttp.status == 200){
+               var newDat = Object.values(xmlHttp.response)
+               for (var i = 0; i < newDat.length; i++){
+                   var messageFrom = newDat[i][0];
+                   if (messageFrom === msg_from){
+                       var tag = document.getElementById("chat");
+                       var nameTag = document.getElementsByName('ptag'+i)[0];
+                       var h_t = document.getElementsByClassName('h_t')[0];
+                       var head_name = document.getElementById("head_name");
+                       var total_message =  document.getElementById("total_messages");
+                       if (nameTag){
+                            tag.innerText = '';
+                            var liTag = document.createElement('li');
+                           var divTag = document.createElement('div');
+                           var divo = document.createElement('div');
+                           var divoTag = document.createElement('div');
+                           var spanTag = document.createElement('span');
+                           var h_t_Tag = document.createElement('h2');
+                           var h_tr_Tag = document.createElement('h3');
+                           var pTag = document.createElement('p');
+                           liTag.setAttribute('class', "me");
+                           divTag.setAttribute('class', "entete");
+                           divoTag.setAttribute('class', "message");
+                           spanTag.setAttribute('class', "status blue");
+                           divo.setAttribute('class', "triangle");
+                           const now = new Date();
+                           var date_now = ((now.toISOString()).split('T')[0]);
+                           var time_msg = ((newDat[i][2]).split('T')[0]);
+                           var new_realtime = ''
+                           if (date_now === time_msg){
+                                var time_time = (newDat[i][2]).split('T')[1];
+                                var real_time = time_time.slice(0,5);
+                                var Ams = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+                                var check = Ams.includes(real_time.slice(0, 2));
+                                if (check === true){
+                                    new_realtime = real_time + ' ' + 'AM';
+
+                                }
+                                else{
+                                    new_realtime = real_time + ' ' + 'PM';
+                                }
+                           }
+                           else if ( time_msg.slice(0, 4) === date_now.slice(0, 4) ){
+                                if ((parseInt(time_msg.slice(8, 10))) === (parseInt(date_now.slice(8, 10)) - 1)){
+                                    new_realtime = "Yesterday";
+                                }
+                           }
+                           else{
+                                new_realtime = time_msg.slice(0, 4) + "/" + time_msg.slice(5, 7) + "/" + time_msg.slice(8, 10);
+                           }
+                           document.getElementById('slug2').value = slugOne;
+                           document.getElementById('send_to1').value = msg_to;
+                           document.getElementById('send_from1').value = msg_from;
+                           h_tr_Tag.innerText = new_realtime;
+                           h_t_Tag.innerText = "You";
+                           h_t_Tag.setAttribute('class', "h_t");
+                           h_tr_Tag.setAttribute('class', "h_tr");
+                           head_name.innerText = msg_to;
+                           total_message.innerText = "already " + newDat.length + " messages";
+                           pTag.setAttribute('name', ("ptag"+i));
+                           pTag.innerText = newDat[i][3];
+                           divoTag.appendChild(pTag);
+                           divTag.appendChild(spanTag);
+                           divTag.appendChild(h_t_Tag);
+                           divTag.appendChild(h_tr_Tag);
+                           liTag.appendChild(divTag);
+                           liTag.appendChild(divoTag);
+                           liTag.appendChild(divo);
+                           tag.appendChild(liTag);
+
+                       }
+                       else{
+                           var liTag = document.createElement('li');
+                           var divTag = document.createElement('div');
+                           var divo = document.createElement('div');
+                           var divoTag = document.createElement('div');
+                           var spanTag = document.createElement('span');
+                           var h_t_Tag = document.createElement('h2');
+                           var h_tr_Tag = document.createElement('h3');
+                           var pTag = document.createElement('p');
+                           liTag.setAttribute('class', "me");
+                           divTag.setAttribute('class', "entete");
+                           divoTag.setAttribute('class', "message");
+                           spanTag.setAttribute('class', "status blue");
+                           divo.setAttribute('class', "triangle");
+                           const now = new Date();
+                           var date_now = ((now.toISOString()).split('T')[0]);
+                           var time_msg = ((newDat[i][2]).split('T')[0]);
+                           var new_realtime = '';
+                           if (date_now === time_msg){
+                                var time_time = (newDat[i][2]).split('T')[1];
+                                var real_time = time_time.slice(0,5);
+                                var Ams = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+                                var check = Ams.includes(real_time.slice(0, 2));
+                                if (check === true){
+                                    new_realtime = real_time + ' ' + 'AM';
+
+                                }
+                                else{
+                                    new_realtime = real_time + ' ' + 'PM';
+                                }
+                           }
+                           else if ( time_msg.slice(0, 4) === date_now.slice(0, 4) ){
+                                if ((parseInt(time_msg.slice(8, 10))) === (parseInt(date_now.slice(8, 10)) - 1)){
+                                    new_realtime = "Yesterday";
+                                }
+                           }
+                           else{
+                                new_realtime = time_msg.slice(0, 4) + "/" + time_msg.slice(5, 7) + "/" + time_msg.slice(8, 10);
+                           }
+                           h_tr_Tag.innerText = new_realtime;
+                           h_t_Tag.innerText = "You";
+                           pTag.setAttribute('class', "from_msg");
+                           pTag.setAttribute('name', ("ptag"+i));
+                           pTag.innerText = newDat[i][3];
+                           head_name.innerText = msg_to;
+                           total_message.innerText = "already " + newDat.length + " messages";
+                           divoTag.appendChild(pTag);
+                           divTag.appendChild(spanTag);
+                           divTag.appendChild(h_t_Tag);
+                           divTag.appendChild(h_tr_Tag);
+                           liTag.appendChild(divTag);
+                           liTag.appendChild(divoTag);
+                           liTag.appendChild(divo);
+                           tag.appendChild(liTag);
+                       }
+                   }
+                   else{
+                            var tag = document.getElementById("chat");
+                            var nameTag = document.getElementsByName('ptag'+i)[0];
+                            var h_t = document.getElementsByClassName('h_t')[0];
+                            var head_name = document.getElementById("head_name");
+                            var total_message =  document.getElementById("total_messages");
+                            if (nameTag){
+                                tag.innerText = '';
+                            var liTag = document.createElement('li');
+                           var divTag = document.createElement('div');
+                           var divo = document.createElement('div');
+                           var divoTag = document.createElement('div');
+                           var spanTag = document.createElement('span');
+                           var h_t_Tag = document.createElement('h2');
+                           var h_tr_Tag = document.createElement('h3');
+                           var pTag = document.createElement('p');
+                           liTag.setAttribute('class', "me");
+                           divTag.setAttribute('class', "entete");
+                           divoTag.setAttribute('class', "message");
+                           spanTag.setAttribute('class', "status green");
+                           divo.setAttribute('class', "triangle");
+                           const now = new Date();
+                           var date_now = ((now.toISOString()).split('T')[0]);
+                           var time_msg = ((newDat[i][2]).split('T')[0]);
+                           var new_realtime = ''
+                           if (date_now === time_msg){
+                                var time_time = (newDat[i][2]).split('T')[1];
+                                var real_time = time_time.slice(0,5);
+                                var Ams = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+                                var check = Ams.includes(real_time.slice(0, 2));
+                                if (check === true){
+                                    new_realtime = real_time + ' ' + 'AM';
+
+                                }
+                                else{
+                                    new_realtime = real_time + ' ' + 'PM';
+                                }
+                           }
+                           else if ( time_msg.slice(0, 4) === date_now.slice(0, 4) ){
+                                if ((parseInt(time_msg.slice(8, 10))) === (parseInt(date_now.slice(8, 10)) - 1)){
+                                    new_realtime = "Yesterday";
+                                }
+                           }
+                           else{
+                                new_realtime = time_msg.slice(0, 4) + "/" + time_msg.slice(5, 7) + "/" + time_msg.slice(8, 10);
+                           }
+                           document.getElementById('slug2').value = slugOne;
+                           document.getElementById('send_to1').value = msg_to;
+                           document.getElementById('send_from1').value = msg_from;
+                           h_tr_Tag.innerText = new_realtime;
+                           h_t_Tag.innerText = msg_to;
+                           h_t_Tag.setAttribute('class', "h_t");
+                           h_tr_Tag.setAttribute('class', "h_tr");
+                           head_name.innerText = msg_to;
+                           total_message.innerText = "already " + newDat.length + " messages";
+                           pTag.setAttribute('name', ("ptag"+i));
+                           pTag.innerText = newDat[i][3];
+                           divoTag.appendChild(pTag);
+                           divTag.appendChild(spanTag);
+                           divTag.appendChild(h_t_Tag);
+                           divTag.appendChild(h_tr_Tag);
+                           liTag.appendChild(divTag);
+                           liTag.appendChild(divoTag);
+                           liTag.appendChild(divo);
+                           tag.appendChild(liTag);
+                            }
+                            else{
+                            var liTag = document.createElement('li');
+                           var divTag = document.createElement('div');
+                           var divo = document.createElement('div');
+                           var divoTag = document.createElement('div');
+                           var spanTag = document.createElement('span');
+                           var h_t_Tag = document.createElement('h2');
+                           var h_tr_Tag = document.createElement('h3');
+                           var pTag = document.createElement('p');
+                           liTag.setAttribute('class', "you");
+                           divTag.setAttribute('class', "entete");
+                           divoTag.setAttribute('class', "message");
+                           spanTag.setAttribute('class', "status green");
+                           divo.setAttribute('class', "triangle");
+                           const now = new Date();
+                           var date_now = ((now.toISOString()).split('T')[0]);
+                           var time_msg = ((newDat[i][2]).split('T')[0]);
+                           var new_realtime = ''
+                           if (date_now === time_msg){
+                                var time_time = (newDat[i][2]).split('T')[1];
+                                var real_time = time_time.slice(0,5);
+                                var Ams = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+                                var check = Ams.includes(real_time.slice(0, 2));
+                                if (check === true){
+                                    new_realtime = real_time + ' ' + 'AM';
+
+                                }
+                                else{
+                                    new_realtime = real_time + ' ' + 'PM';
+                                }
+                           }
+                           else if ( time_msg.slice(0, 4) === date_now.slice(0, 4) ){
+                                if ((parseInt(time_msg.slice(8, 10))) === (parseInt(date_now.slice(8, 10)) - 1)){
+                                    new_realtime = "Yesterday";
+                                }
+                           }
+                           else{
+                                new_realtime = time_msg.slice(0, 4) + "/" + time_msg.slice(5, 7) + "/" + time_msg.slice(8, 10);
+                           }
+                           h_tr_Tag.innerText = new_realtime;
+                           h_t_Tag.innerText = msg_to
+                           pTag.setAttribute('class', "from_msg");
+                           pTag.setAttribute('name', ("ptag"+i));
+                           pTag.innerText = newDat[i][3];
+                           head_name.innerText = msg_to;
+                           total_message.innerText = "already " + newDat.length + " messages";
+                           divoTag.appendChild(pTag);
+                           divTag.appendChild(spanTag);
+                           divTag.appendChild(h_t_Tag);
+                           divTag.appendChild(h_tr_Tag);
+                           liTag.appendChild(divTag);
+                           liTag.appendChild(divoTag);
+                           liTag.appendChild(divo);
+                           tag.appendChild(liTag);
+						}
+					}
+				}
+
+            setTimeout(getMessages, 1000);
+			}
+
+
+        }
+        document.getElementById("send_input").value = '';
+      }
+
+      function getMessages(){
+        var msg = document.getElementById("send_input").value;
+        var msg_from = document.getElementById("send_from1").value;
+        var msg_to = document.getElementById("send_to1").value;
+        var slugOne = document.getElementById("slug2").value;
+
+        url = "http://127.0.0.1:8000/recieve/" + slugOne + "/";
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", url, true);
+        xmlHttp.responseType = 'json';
+        xmlHttp.send( null );
+
+        xmlHttp.onload = function(){
+           if(xmlHttp.status == 200){
+           var newDat = Object.values(xmlHttp.response)
+            for (var i = 0; i < newDat.length; i++){
+			 var messageFrom = newDat[i][0];
+			 if (messageFrom === msg_from){
+				   var tag = document.getElementById("chat");
+				   var nameTag = document.getElementsByName('ptag'+i)[0];
+				   var divMsg = document.getElementsByClassName('message')[0];
+				   var h_t = document.getElementsByClassName('h_t')[0];
+				   var head_name = document.getElementById("head_name");
+                   var total_message =  document.getElementById("total_messages");
+				   if (nameTag){
+						tag.innerText = '';
+						var liTag = document.createElement('li');
+					   var divTag = document.createElement('div');
+					   var divo = document.createElement('div');
+					   var divoTag = document.createElement('div');
+					   var spanTag = document.createElement('span');
+					   var h_t_Tag = document.createElement('h2');
+					   var h_tr_Tag = document.createElement('h3');
+					   var pTag = document.createElement('p');
+					   liTag.setAttribute('class', "me");
+					   divTag.setAttribute('class', "entete");
+					   divoTag.setAttribute('class', "message");
+					   spanTag.setAttribute('class', "status blue");
+					   divo.setAttribute('class', "triangle");
+					   const now = new Date();
+					   var date_now = ((now.toISOString()).split('T')[0]);
+					   var time_msg = ((newDat[i][2]).split('T')[0]);
+					   var new_realtime = ''
+					   if (date_now === time_msg){
+							var time_time = (newDat[i][2]).split('T')[1];
+							var real_time = time_time.slice(0,5);
+							var Ams = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+							var check = Ams.includes(real_time.slice(0, 2));
+							if (check === true){
+								new_realtime = real_time + ' ' + 'AM';
+
+							}
+							else{
+								new_realtime = real_time + ' ' + 'PM';
+							}
+					   }
+					   else if ( time_msg.slice(0, 4) === date_now.slice(0, 4) ){
+							if ((parseInt(time_msg.slice(8, 10))) === (parseInt(date_now.slice(8, 10)) - 1)){
+								new_realtime = "Yesterday";
+							}
+					   }
+					   else{
+							new_realtime = time_msg.slice(0, 4) + "/" + time_msg.slice(5, 7) + "/" + time_msg.slice(8, 10);
+					   }
+					   document.getElementById('slug2').value = slugOne;
+                       document.getElementById('send_to1').value = msg_to;
+                       document.getElementById('send_from1').value = msg_from;
+					   h_tr_Tag.innerText = new_realtime;
+					   h_t_Tag.innerText = "You";
+					   h_t_Tag.setAttribute('class', "h_t");
+                       h_tr_Tag.setAttribute('class', "h_tr");
+                       head_name.innerText = msg_to;
+                       total_message.innerText = "already " + newDat.length + " messages";
+					   pTag.setAttribute('name', ("ptag"+i));
+					   pTag.innerText = newDat[i][3];
+					   divoTag.appendChild(pTag);
+					   divTag.appendChild(spanTag);
+					   divTag.appendChild(h_t_Tag);
+					   divTag.appendChild(h_tr_Tag);
+					   liTag.appendChild(divTag);
+					   liTag.appendChild(divoTag);
+					   liTag.appendChild(divo);
+					   tag.appendChild(liTag);
+
+				   }
+				   else{
+
+					   var liTag = document.createElement('li');
+					   var divTag = document.createElement('div');
+					   var divo = document.createElement('div');
+					   var divoTag = document.createElement('div');
+					   var spanTag = document.createElement('span');
+					   var h_t_Tag = document.createElement('h2');
+					   var h_tr_Tag = document.createElement('h3');
+					   var pTag = document.createElement('p');
+					   liTag.setAttribute('class', "me");
+					   divTag.setAttribute('class', "entete");
+					   divoTag.setAttribute('class', "message");
+					   spanTag.setAttribute('class', "status blue");
+					   divo.setAttribute('class', "triangle");
+					   const now = new Date();
+					   var date_now = ((now.toISOString()).split('T')[0]);
+					   var time_msg = ((newDat[i][2]).split('T')[0]);
+					   var new_realtime = ''
+					   if (date_now === time_msg){
+							var time_time = (newDat[i][2]).split('T')[1];
+							var real_time = time_time.slice(0,5);
+							var Ams = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+							var check = Ams.includes(real_time.slice(0, 2));
+							if (check === true){
+								new_realtime = real_time + ' ' + 'AM';
+
+							}
+							else{
+								new_realtime = real_time + ' ' + 'PM';
+							}
+					   }
+					   else if ( time_msg.slice(0, 4) === date_now.slice(0, 4) ){
+							if ((parseInt(time_msg.slice(8, 10))) === (parseInt(date_now.slice(8, 10)) - 1)){
+								new_realtime = "Yesterday";
+							}
+					   }
+					   else{
+							new_realtime = time_msg.slice(0, 4) + "/" + time_msg.slice(5, 7) + "/" + time_msg.slice(8, 10);
+					   }
+					   document.getElementById('slug2').value = slugOne;
+                       document.getElementById('send_to1').value = msg_to;
+                       document.getElementById('send_from1').value = msg_from;
+					   h_tr_Tag.innerText = new_realtime;
+					   h_t_Tag.innerText = "You";
+					   h_t_Tag.setAttribute('class', "h_t");
+                       head_name.innerText = msg_to;
+                       total_message.innerText = "already " + newDat.length + " messages";
+                       h_tr_Tag.setAttribute('class', "h_tr");
+					   pTag.setAttribute('name', ("ptag"+i));
+					   pTag.innerText = newDat[i][3];
+					   divoTag.appendChild(pTag);
+					   divTag.appendChild(spanTag);
+					   divTag.appendChild(h_t_Tag);
+					   divTag.appendChild(h_tr_Tag);
+					   liTag.appendChild(divTag);
+					   liTag.appendChild(divoTag);
+					   liTag.appendChild(divo);
+					   tag.appendChild(liTag);
+				   }
+			 }
+			 else{
+			          var tag = document.getElementById("chat");
+				      var nameTag = document.getElementsByName('ptag'+i)[0];
+				      var divMsg = document.getElementsByClassName('message')[0];
+			          var h_t = document.getElementsByClassName('h_t')[0];
+                      var head_name = document.getElementById("head_name");
+                      var total_message =  document.getElementById("total_messages");
+			          if (nameTag){
+                          tag.innerText = '';
+                          var liTag = document.createElement('li');
+					   var divTag = document.createElement('div');
+					   var divo = document.createElement('div');
+					   var divoTag = document.createElement('div');
+					   var spanTag = document.createElement('span');
+					   var h_t_Tag = document.createElement('h2');
+					   var h_tr_Tag = document.createElement('h3');
+					   var pTag = document.createElement('p');
+					   liTag.setAttribute('class', "you");
+					   divTag.setAttribute('class', "entete");
+					   divoTag.setAttribute('class', "message");
+					   spanTag.setAttribute('class', "status green");
+					   divo.setAttribute('class', "triangle");
+					   const now = new Date();
+					   var date_now = ((now.toISOString()).split('T')[0]);
+					   var time_msg = ((newDat[i][2]).split('T')[0]);
+					   var new_realtime = ''
+					   if (date_now === time_msg){
+							var time_time = (newDat[i][2]).split('T')[1];
+							var real_time = time_time.slice(0,5);
+							var Ams = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+							var check = Ams.includes(real_time.slice(0, 2));
+							if (check === true){
+								new_realtime = real_time + ' ' + 'AM';
+
+							}
+							else{
+								new_realtime = real_time + ' ' + 'PM';
+							}
+					   }
+					   else if ( time_msg.slice(0, 4) === date_now.slice(0, 4) ){
+							if ((parseInt(time_msg.slice(8, 10))) === (parseInt(date_now.slice(8, 10)) - 1)){
+								new_realtime = "Yesterday";
+							}
+					   }
+					   else{
+							new_realtime = time_msg.slice(0, 4) + "/" + time_msg.slice(5, 7) + "/" + time_msg.slice(8, 10);
+					   }
+					   document.getElementById('slug2').value = slugOne;
+                       document.getElementById('send_to1').value = msg_to;
+                       document.getElementById('send_from1').value = msg_from;
+					   h_tr_Tag.innerText = new_realtime;
+					   h_t_Tag.innerText = msg_to;
+					   h_t_Tag.setAttribute('class', "h_t");
+                       h_tr_Tag.setAttribute('class', "h_tr");
+					   pTag.setAttribute('name', ("ptag"+i));
+					   pTag.innerText = newDat[i][3];
+					   head_name.innerText = msg_to;
+                       total_message.innerText = "already " + newDat.length + " messages";
+					   divoTag.appendChild(pTag);
+					   divTag.appendChild(spanTag);
+					   divTag.appendChild(h_t_Tag);
+					   divTag.appendChild(h_tr_Tag);
+					   liTag.appendChild(divTag);
+					   liTag.appendChild(divoTag);
+					   liTag.appendChild(divo);
+					   tag.appendChild(liTag);
+                      }
+                      else{
+					   var liTag = document.createElement('li');
+					   var divTag = document.createElement('div');
+					   var divo = document.createElement('div');
+					   var divoTag = document.createElement('div');
+					   var spanTag = document.createElement('span');
+					   var h_t_Tag = document.createElement('h2');
+					   var h_tr_Tag = document.createElement('h3');
+					   var pTag = document.createElement('p');
+					   liTag.setAttribute('class', "you");
+					   divTag.setAttribute('class', "entete");
+					   divoTag.setAttribute('class', "message");
+					   spanTag.setAttribute('class', "status green");
+					   divo.setAttribute('class', "triangle");
+					   const now = new Date();
+					   var date_now = ((now.toISOString()).split('T')[0]);
+					   var time_msg = ((newDat[i][2]).split('T')[0]);
+					   var new_realtime = ''
+					   if (date_now === time_msg){
+							var time_time = (newDat[i][2]).split('T')[1];
+							var real_time = time_time.slice(0,5);
+							var Ams = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+							var check = Ams.includes(real_time.slice(0, 2));
+							if (check === true){
+								new_realtime = real_time + ' ' + 'AM';
+
+							}
+							else{
+								new_realtime = real_time + ' ' + 'PM';
+							}
+					   }
+					   else if ( time_msg.slice(0, 4) === date_now.slice(0, 4) ){
+							if ((parseInt(time_msg.slice(8, 10))) === (parseInt(date_now.slice(8, 10)) - 1)){
+								new_realtime = "Yesterday";
+							}
+					   }
+					   else{
+							new_realtime = time_msg.slice(0, 4) + "/" + time_msg.slice(5, 7) + "/" + time_msg.slice(8, 10);
+					   }
+					   document.getElementById('slug2').value = slugOne;
+                       document.getElementById('send_to1').value = msg_to;
+                       document.getElementById('send_from1').value = msg_from;
+					   h_tr_Tag.innerText = new_realtime;
+					   h_t_Tag.innerText = msg_to;
+					   h_t_Tag.setAttribute('class', "h_t");
+                       h_tr_Tag.setAttribute('class', "h_tr");
+					   pTag.setAttribute('name', ("ptag"+i));
+					   pTag.innerText = newDat[i][3];
+					   head_name.innerText = msg_to;
+                       total_message.innerText = "already " + newDat.length + "messages";
+					   divoTag.appendChild(pTag);
+					   divTag.appendChild(spanTag);
+					   divTag.appendChild(h_t_Tag);
+					   divTag.appendChild(h_tr_Tag);
+					   liTag.appendChild(divTag);
+					   liTag.appendChild(divoTag);
+					   liTag.appendChild(divo);
+					   tag.appendChild(liTag);
+                            }
+					   }
+				   }
+
+
+				}
+			}
+        }
+
+
+      function choose(){
+        document.getElementById("Profile_pic").style.display = "block";
+      }
+      function enable() {
+        document.getElementsByClassName("right-input")[0].disabled = false;
+        document.getElementsByClassName("right-input")[0].autofocus = true;
+        document.getElementsByClassName("left-input")[0].disabled = false;
+        document.getElementsByClassName("right-input")[1].disabled = false;
+        document.getElementsByClassName("left-input")[1].disabled = false;
+        document.getElementsByClassName("right-input")[2].disabled = false;
+        document.getElementsByClassName("right-input")[3].disabled = false;
+        document.getElementsByClassName("right-input")[4].disabled = false;
+        document.getElementsByClassName("right-input")[5].disabled = false;
+        document.getElementsByClassName("right-input")[6].disabled = false;
+        document.getElementsByClassName("left-input")[2].disabled = false;
+        document.getElementsByClassName("text_area")[0].disabled = false;
+      }
+
+      function page_unhide(){
+        if (document.getElementById("form_style_pic").style.display == "block"){
+            document.getElementById("form_style_pic").style.display = "none";
+            document.getElementById("style_img_txt").style.display = "block";
+         }
+         else{
+            document.getElementById("form_style_pic").style.display = "block";
+            document.getElementById("style_img_txt").style.display = "none";
+         }
+      }
+
+      function likes_unhide(){
+        document.getElementById("likes_div").style.display = "block";
+        document.getElementById("likes_main").style.display = "none";
+      }
+      function lk_unhide(){
+        document.getElementById("looking_for_div").style.display = "block";
+        document.getElementById("looking_for_main").style.display = "none";
+      }
+      function desc_unhide(){
+        document.getElementById("desc_div").style.display = "block";
+        document.getElementById("desc_main").style.display = "none";
+      }
+      function detail_unhide(){
+        document.getElementById("details_div").style.display = "block";
+        document.getElementById("details_main").style.display = "none";
+      }
+
+
+    </script>
+
+
+</head>
+
+<body>
+    <!-- ==========Preloader========== -->
+    <div class="preloader">
+        <div class="preloader-inner">
+            <div class="preloader-icon">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <!-- ==========Preloader========== -->
+
+    <!-- ==========Overlay========== -->
+    <div class="overlay"></div>
+    <a href="#" class="scrollToTop">
+        <i class="fas fa-angle-up"></i>
+    </a>
+    <!-- ==========Overlay========== -->
+
+    <!-- ==========Header-Section========== -->
+    {% block title %}
+
+    <header class="header-section">
+        <div class="container">
+            <div class="header-wrapper">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="{% static 'img/logo_blue.png' %}" alt="logo">
+                    </a>
+                </div>
+                <ul class="menu">
+                    <li>
+                        <a href="{% url 'home' %}" class="active">Home</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'community' %}">Community</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'subs' %}">Membership</a>
+                    </li>
+                    <li>
+                        <a href="#">pages</a>
+                        <ul class="submenu">
+                            <li>
+                                {% if user.is_authenticated %}
+                                <a href="{% url 'profile' %}">User Panel</a>
+                                {% else %}
+                                <a href="{% url 'Signup' %}">User Panel</a>
+                                {% endif %}
+                            </li>
+                            <li>
+                                <a href="{% url 'about' %}">About Us</a>
+                            </li>
+
+                            <li>
+                                <a href="{% url 'contact' %}">Contact</a>
+                            </li>
+                            {% if user.is_authenticated %}
+                            {% else %}
+                            <li>
+                                <a href="{% url 'login' %}">Login</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'Signup' %}">Register</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </li>
+
+                    <li class="separator">
+                        <span>|</span>
+                    </li>
+                    <li>
+                        <div class="serch-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="language-select">
+                            <select class="select-bar">
+                                <option value="">EN</option>
+                            </select>
+                        </div>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="user-profile">
+                        <a href="#">
+                            <img src="{% static 'images/user-demo.png' %}" alt="">
+                        </a>
+                        <ul class="submenu">
+                            <li>
+                                <a href="{% url 'profile' %}">Profile</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'logout' %}">Logout</a>
+                            </li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    {% endif %}
+                </ul>
+                <div class="header-bar d-lg-none">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="search-overlay">
+        <div class="close"><i class="fas fa-times"></i></div>
+        <form action="#">
+            <input type="text" placeholder="Write what you want..">
+        </form>
+    </div>
+    {% endblock %}
+
+    <!-- ==========Header-Section========== -->
+
+    <!-- ==========Banner-Section========== -->
+    {% block content %}
+    <section class="banner-section">
+        <img class="img1 wow fadeInLeft" src="{% static 'images/banner/aimg1.png' %}" alt="">
+        <img class="img2 wow fadeInRight" src="{% static 'images/banner/aimg2.png' %}" alt="">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-4 col-lg-5">
+                    <h1 class="main-title wow fadeInLeft">
+                        Find Love
+                        Your Life
+                    </h1>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="join-now-box wow fadeInUp">
+                            <div class="single-option">
+                                <p class="title">
+                                    I am a :
+                                </p>
+                                <div class="option">
+                                    <div class="s-input mr-3">
+                                        <input type="radio" name="gender1" id="male"><label for="male">Male</label>
+                                    </div>
+                                    <div class="s-input">
+                                        <input type="radio" name="gender1" id="female"><label for="female">Female</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="single-option gender">
+                                <p class="title">
+                                    Seeking a :
+                                </p>
+                                <div class="option">
+                                    <div class="s-input mr-4">
+                                        <input type="radio" name="seeking1" value="Male" id="males"><label for="males">Man</label>
+                                    </div>
+                                    <div class="s-input">
+                                        <input type="radio" name="seeking1"  value="Female" id="females"><label for="females">Woman</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="single-option age">
+                                <p class="title">
+                                    Ages :
+                                </p>
+                                <div class="option">
+                                    <div class="s-input mr-3">
+                                        <select name="left-age" class="select-bar">
+                                            <option value="18">18</option>
+                                            <option value="20">20</option>
+                                            <option value="24">24</option>
+                                        </select>
+                                    </div>
+                                    <div class="separator">
+                                        -
+                                    </div>
+                                    <div class="s-input ml-3">
+                                        <select class="select-bar">
+                                            <option value="30">30</option>
+                                            <option value="35">35</option>
+                                            <option value="40">40</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="single-option last">
+                                <p class="title">
+                                    Country :
+                                </p>
+                                <div class="option">
+                                    <div class="s-input mr-3">
+                                        <select class="select-bar">
+                                            <option>Select Country</option>
+                                            <option value="Ghana">Ghana</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="joun-button">
+                                <a href="{% url 'Signup' %}" class="custom-button">Join Now!</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ==========Banner-Section========== -->
+
+    <!-- ==========Feature-Section========== -->
+    <section class="feature-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-sm-6">
+                    <div class="single-feature wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="icon">
+                            <img src="{% static 'images/feature/icon01.png' %}" alt="">
+                        </div>
+                        <h4>
+                            100% Verifide
+                        </h4>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="single-feature wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="icon">
+                            <img src="{% static 'images/feature/icon02.png' %}" alt="">
+                        </div>
+                        <h4>
+                            Most Secure
+                        </h4>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="single-feature wow fadeInUp" data-wow-delay="0.3s">
+                        <div class="icon">
+                            <img src="{% static 'images/feature/icon03.png' %}" alt="">
+                        </div>
+                        <h4>
+                            100% Privacy
+                        </h4>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="single-feature wow fadeInUp" data-wow-delay="0.4s">
+                        <div class="icon">
+                            <img src="{% static 'images/feature/icon04.png' %}" alt="">
+                        </div>
+                        <h4>
+                            Smart Matching
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ==========Feature-Section========== -->
+
+    <!-- ==========Start-Flirting-Section========== -->
+    <section class="flirting-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="content">
+                        <div class="section-header">
+                            <h6 class="sub-title extra-padding wow fadeInUp">
+                                Meet New People Today!
+                            </h6>
+                            <h2 class="title extra-padding wow fadeInUp">
+                                Start Flirting
+                            </h2>
+                            <p>
+                                In our modern day and age dating apps have become an
+                                integral part of our lives. They allow you to check the profile of singles living near
+                                you, to chat with them, to meet them and maybe to fall in love.
+                            </p>
+                            <br>
+                            <p>
+                                If you’re searching for a simple dating app with free features
+                                allowing to meet singles, you’re in good hands with Pairko. With Pairko you get all you
+                                need from a mobile dating app, which presents you thousands of users through your
+                                smartphone in a very pleasant experience.
+                            </p>
+                        </div>
+
+                        <a href="#" class="custom-button">Seek Your Partner</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 align-self-center">
+                    <div class="img">
+                        <img class="bg-shape" src="{% static 'images/flirting/circle.png' %}" alt="">
+                        <img src="{% static 'images/flirting/illutration.png' %}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ==========Start-Flirting-Section========== -->
+
+    <!-- ==========How it work Section========== -->
+    <section class="how-it-work-section">
+        <img class="shape1" src="{% static '/images/h-it-w/circle-shape.png' %}" alt="">
+        <img class="shape2" src="{% static '/images/h-it-w/bird.png' %}" alt="">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="content">
+                        <div class="section-header">
+                            <h6 class="sub-title extra-padding wow fadeInUp">
+                                Meet New People Today!
+                            </h6>
+                            <h2 class="title wow fadeInUp">
+                                How Does It Work?
+                            </h2>
+                            <p class="text wow fadeInUp">
+                                You’re just 3 steps away from a great date
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-work-box wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="icon">
+                            <img src="{% static 'images/h-it-w/icon1.png' %}" alt="">
+                            <div class="number">
+                                01
+                            </div>
+                        </div>
+                        <h4 class="title">
+                            Tell us who you are!
+                        </h4>
+                        <a href="#" class="custom-button">Join Now !</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-work-box wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="icon">
+                            <img src="{% static 'images/h-it-w/icon2.png' %}" alt="">
+                            <div class="number">
+                                02
+                            </div>
+                        </div>
+                        <h4 class="title">
+                            Find the right person
+                        </h4>
+                        <a href="#" class="custom-button">Join Now !</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-work-box wow fadeInUp" data-wow-delay="0.3s">
+                        <div class="icon">
+                            <img src="{% static 'images/h-it-w/icon3.png' %}" alt="">
+                            <div class="number">
+                                03
+                            </div>
+                        </div>
+                        <h4 class="title">
+                            Start Dating
+                        </h4>
+                        <a href="#" class="custom-button">Join Now !</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ==========How it work Section========== -->
+
+    <!-- ==========Statistics-Section========== -->
+    <section class="statistics-section">
+        <div class="container">
+            <div class="statistics-wrapper">
+                <div class="row mb--20">
+                    <div class="col-md-4 col-sm-6">
+                        <div class="stat-item wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="icon">
+                                <img src="{% static 'images/statistics/stat01.png' %}" alt="">
+                            </div>
+                            <div class="stat-content">
+                                <h3 class="counter-item"><span class=" odometer" data-odometer-final="350"></span>M</h3>
+                                <span class="info">Tickets Booked</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="stat-item wow fadeInUp" data-wow-delay="0.2s">
+                            <div class="icon">
+                                <img src="{% static 'images/statistics/stat02.png' %}" alt="">
+                            </div>
+                            <div class="stat-content">
+                                <h3 class="counter-item"><span class=" odometer" data-odometer-final="447"></span>M</h3>
+                                <span class="info">Usefull Sessions</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="stat-item wow fadeInUp" data-wow-delay="0.3s">
+                            <div class="icon">
+                                <img src="{% static 'images/statistics/stat03.png' %}" alt="">
+                            </div>
+                            <div class="stat-content">
+                                <h3 class="counter-item"><span class=" odometer" data-odometer-final="60"></span>M</h3>
+                                <span class="info">Talented Speakers</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ==========Statistics-Section========== -->
+
+    <!-- ==========Join-now-Section========== -->
+    <section class="join-now-section">
+        <img class="shape1" src="{% static 'images/join/heartshape.png' %}" alt="">
+        <img class="shape2" src="{% static 'images/join/img.png' %}" alt="">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="content">
+                        <div class="section-header white-color">
+                            <h2 class="title wow fadeInUp">
+                                Best Ways to Find Your
+                                True Sole Mate
+                            </h2>
+                        </div>
+
+                        <a href="#" class="custom-button">Join Now !</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ==========Join-now-Section========== -->
+
+    <!-- ==========Features-Section========== -->
+    <section class="feature-section extra-feature">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="content">
+                        <div class="section-header">
+                            <h6 class="sub-title wow fadeInUp">
+                                An Exhaustive List Of
+                            </h6>
+                            <h2 class="title extra-padding wow fadeInUp">
+                                Amazing Features
+                            </h2>
+                            <p class="text">
+                                To find meaningful connections, dates, and life partners.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-content-area">
+            <div class="left-image">
+                <div class="offer">
+                    <div class="offer-inner-content">
+                        <span class="fs">START NOW FOR</span>
+                        <h2>
+                            FREE
+                        </h2>
+                        <span class="ss">7 DAY TRIAL</span>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row justify-content-end">
+                    <div class="col-lg-5">
+                        <div class="feature-lists">
+                            <div class="single-feature-list wow fadeInUp" data-wow-delay="0.1s">
+                                <div class="icon">
+                                    <img src="{% static 'images/feature/i1.png' %}" alt="">
+                                </div>
+                                <div class="content">
+                                    <h4 class="title">
+                                        Simple to use
+                                    </h4>
+                                    <p>
+                                        Simple steps to follow to have a matching
+                                        connection.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="single-feature-list wow fadeInUp" data-wow-delay="0.2s">
+                                <div class="icon">
+                                    <img src="{% static 'images/feature/i2.png' %}" alt="">
+                                </div>
+                                <div class="content">
+                                    <h4 class="title">
+                                        Smart Matching
+                                    </h4>
+                                    <p>
+                                        Simple steps to follow to have a matching
+                                        connection.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="single-feature-list wow fadeInUp" data-wow-delay="0.3s">
+                                <div class="icon">
+                                    <img src="{% static 'images/feature/i3.png' %}" alt="">
+                                </div>
+                                <div class="content">
+                                    <h4 class="title">
+                                        Filter very fast
+                                    </h4>
+                                    <p>
+                                        Simple steps to follow to have a matching
+                                        connection.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="single-feature-list wow fadeInUp" data-wow-delay="0.4s">
+                                <div class="icon">
+                                    <img src="{% static 'images/feature/i4.png' %}" alt="">
+                                </div>
+                                <div class="content">
+                                    <h4 class="title">
+                                        Cool community
+                                    </h4>
+                                    <p>
+                                        Simple steps to follow to have a matching
+                                        connection.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ==========Features-Section========== -->
+
+    <!-- ==========Latest-Registered-Section========== -->
+    <section class="latest-registered-section">
+        <img class="shape" src="{% static 'images/registered/shape.png' %}" alt="">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-6">
+                    <div class="content">
+                        <div class="section-header">
+                            <h6 class="sub-title extra-padding wow fadeInUp">
+                                Latest Registered
+                            </h6>
+                            <h2 class="title wow fadeInUp">
+                                Members
+                            </h2>
+                            <p class="text">
+                                if you have been looking for the someone
+                                special of your life for long, then your
+                                search ends here
+                            </p>
+                        </div>
+                        <a href="#" class="custom-button">Join Now !</a>
+                    </div>
+                </div>
+                <div class="col-xl-6 align-self-center">
+                    <div class="registered-slider owl-carousel">
+                        {% for prof in profile %}
+                        <div class="single-slider">
+                            {% if prof.Profile_pic %}
+                            <div class="img">
+                                <img src="{{prof.Profile_pic.url}}" alt="">
+                            </div>
+                            {% else %}
+                            <div class="img">
+                                <img src="{% static 'img/images.png' %}" alt="">
+                            </div>
+                            {% endif %}
+                            <div class="inner-content">
+                                <h4 class="name">
+                                    {{prof.First_name}} {{prof.Last_name}}
+                                </h4>
+                                <p>
+                                    {{prof.get_age}} years old
+                                </p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ==========Latest-Registered-Section========== -->
+
+    <!-- ==========Success-Stories-Section========== -->
+    <section class="sucess-stories-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="content">
+                        <div class="section-header">
+                            <h6 class="sub-title wow fadeInUp">
+                                Love in faith
+                            </h6>
+                            <h2 class="title wow fadeInUp">
+                                Success Stories
+                            </h2>
+                            <p class="text wow fadeInUp">
+                                Aliquam a neque tortor. Donec iaculis auctor turpis. Eporttitor
+                                mattis ullamcorper urna. Cras quis elementum
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-story-box wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="img">
+                            <img src="{% static 'images/sucess/img1.jpg' %}" alt="">
+                        </div>
+                        <div class="content">
+                            <div class="author">
+                                <img src="{% static 'images/sucess/p1.png' %}" alt="">
+                                <span></span>
+                            </div>
+                            <h4 class="title">
+                                Love horoscope for Cancer
+                                There will be...
+                            </h4>
+                            <p class="date">
+                                December 10, 2021
+                            </p>
+                        </div>
+                        <div class="box-footer">
+                            <div class="left">
+                                <ul class="box-social-links">
+                                    <li>
+                                        <a href="#">
+                                            <i class="fab fa-facebook-f"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fab fa-twitter"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fab fa-instagram"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="right">
+                                <a href="#">
+                                    Read More<i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-story-box wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="img">
+                            <img src="{% static 'images/sucess/img2.png' %}" alt="">
+                        </div>
+                        <div class="content">
+                            <div class="author">
+                                <img src="{% static 'images/sucess/p2.png' %}" alt="">
+                                <span></span>
+                            </div>
+                            <h4 class="title">
+                                ‘love at first sight’ is all
+                                about initial attraction...
+                            </h4>
+                            <p class="date">
+                                December 11, 2021
+                            </p>
+                        </div>
+                        <div class="box-footer">
+                            <div class="left">
+                                <ul class="box-social-links">
+                                    <li>
+                                        <a href="#">
+                                            <i class="fab fa-facebook-f"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fab fa-twitter"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fab fa-instagram"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="right">
+                                <a href="#">
+                                    Read More<i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-story-box wow fadeInUp" data-wow-delay="0.3s">
+                        <div class="img">
+                            <img src="{% static 'images/sucess/img3.png' %}" alt="">
+                        </div>
+                        <div class="content">
+                            <div class="author">
+                                <img src="{% static 'images/sucess/p3.png' %}" alt="">
+                                <span></span>
+                            </div>
+                            <h4 class="title">
+                                What women actually
+                                want to feel on their...
+                            </h4>
+                            <p class="date">
+                                December 14, 2021
+                            </p>
+                        </div>
+                        <div class="box-footer">
+                            <div class="left">
+                                <ul class="box-social-links">
+                                    <li>
+                                        <a href="#">
+                                            <i class="fab fa-facebook-f"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fab fa-twitter"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fab fa-instagram"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="right">
+                                <a href="#">
+                                    Read More<i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========Success-Stories-Section========== -->
+
+    <!-- ==========Newslater-Section========== -->
+    <footer class="footer-section">
+        <img class="shape1" src="{% static 'images/footer/f-shape.png' %}" alt="">
+        <img class="shape2" src="{% static 'images/footer/flower01.png' %}" alt="">
+        <img class="shape3" src="{% static 'images/footer/right-shape.png' %}" alt="">
+        <div class="newslater-section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-md-8">
+                        <div class="newslater-container">
+                            <div class="newslater-wrapper">
+                                <div class="icon">
+                                    <img src="{% static 'images/footer/n-icon.png' %}" alt="">
+                                </div>
+                                <p class="text">Sign up to recieve a monthly email on the latest news!</p>
+                                <form class="newslater-form">
+                                    <input type="text" placeholder="Your Email Address">
+                                    <button type="submit">
+                                        <i class="fab fa-telegram-plane"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="footer-links">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <hr class="hr">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="link-wrapper one">
+                            <h4 class="f-l-title">
+                                Our Information
+                            </h4>
+                            <ul class="f-solial-links">
+                                <li>
+                                    <a href="{% static 'about' %}">
+                                        <i class="fas fa-angle-double-right"></i> About Us
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% static 'contact' %}">
+                                        <i class="fas fa-angle-double-right"></i> Contact Us
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="link-wrapper two">
+                            <h4 class="f-l-title">
+                                My Account
+                            </h4>
+                            <ul class="f-solial-links">
+                                {% if user.is_authenticated %}
+                                <li>
+                                    <a href="{% url 'setting' %}">
+                                        <i class="fas fa-angle-double-right"></i> Manage Account
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'community' %}">
+                                        <i class="fas fa-angle-double-right"></i> Safety Tips
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'setting' %}">
+                                        <i class="fas fa-angle-double-right"></i> Account Varification
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="{% url 'subs' %}">
+                                        <i class="fas fa-angle-double-right"></i> Membership Level
+                                    </a>
+                                </li>
+                                {% else %}
+                                <li>
+                                    <a href="{% url 'login' %}">
+                                        <i class="fas fa-angle-double-right"></i> Manage Account
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'community' %}">
+                                        <i class="fas fa-angle-double-right"></i> Safety Tips
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'login' %}">
+                                        <i class="fas fa-angle-double-right"></i> Account Varification
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="{% url 'subs' %}">
+                                        <i class="fas fa-angle-double-right"></i> Membership Level
+                                    </a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="link-wrapper three">
+                            <h4 class="f-l-title">
+                                help center
+                            </h4>
+                            <ul class="f-solial-links">
+                                <li>
+                                    <a href="{% url 'subs' %}">
+                                        <i class="fas fa-angle-double-right"></i> Help centre
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'subs' %}">
+                                        <i class="fas fa-angle-double-right"></i>Quick Start Guide
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="link-wrapper four">
+                            <h4 class="f-l-title">
+                                legal
+                            </h4>
+                            <ul class="f-solial-links">
+                                <li>
+                                    <a href="{% url 'subs' %}">
+                                        <i class="fas fa-angle-double-right"></i> Privacy policy
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'contact' %}">
+                                        <i class="fas fa-angle-double-right"></i> Report abuse
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright-wrapper">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <hr class="hr2">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 align-self-center">
+                        <div class="copyr-text">
+                            <span>
+                                Copyright © 2021.All Rights Reserved By
+                            </span>
+                            <a href="#">DreamnMatch</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <ul class="footer-social-links">
+                            <li>
+                                <a href="#">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fab fa-dribbble"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    {% endblock %}
+    <!-- ==========Newslater-Section========== -->
+
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/modernizr-3.6.0.min.js' %}"></script>
+    <script src="{% static 'js/plugins.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/heandline.js' %}"></script>
+    <script src="{% static 'js/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'js/magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/wow.min.js' %}"></script>
+    <script src="{% static 'js/countdown.min.js' %}"></script>
+    <script src="{% static 'js/odometer.min.js' %}"></script>
+    <script src="{% static 'js/viewport.jquery.js' %}"></script>
+    <script src="{% static 'js/nice-select.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>
