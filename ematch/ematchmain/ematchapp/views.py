@@ -731,7 +731,7 @@ def redirect_page(request):
 
     url = f"https://api.paystack.co/transaction/verify/{reference}"
     headers = {
-        'Authorization': "Bearer sk_live_3fb48355e5f79301a460cc414ad9a0dd6f521589"
+        'Authorization': "Bearer "
     }
 
     req = requests.get(url, headers=headers)
